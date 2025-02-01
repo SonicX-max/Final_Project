@@ -1,0 +1,166 @@
+/* === style.css (обновлённый фрагмент с "прилипшим" футером) === */
+
+/* Глобальные настройки для высоты страницы и flex-верстки */
+html, body {
+    margin: 0;
+    padding: 0;
+    /* Чтобы футер мог «прижиматься» внизу при недостатке контента */
+    height: 100%;
+}
+
+/* Делаем body «колонкой», чтобы main-content мог растягиваться, а футер оставался снизу */
+body {
+    display: flex;
+    flex-direction: column;
+
+    /* Розовый фон, как вы хотели */
+    background-color: #ffeef5;
+    color: #333;
+    font-family: Arial, sans-serif;
+}
+
+/* Шапка (navbar) будет сверху, её стили можно не менять, кроме обнуления margin/padding */
+.navbar {
+    background-color: #ffdbe3;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0; /* чтобы не сжималась */
+}
+
+/* Контейнер в шапке */
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff5e85;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-link {
+    color: #ff5e85;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+}
+
+.nav-welcome {
+    margin-right: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Блок основного контента.
+   flex: 1 0 auto — говорит «расти, занимая свободное место»,
+   чтобы футер сдвинулся вниз */
+.main-content {
+    flex: 1; /* берёт всё свободное пространство */
+    padding: 20px;
+}
+
+/* Заголовок страниц (например, "Список товаров") */
+.page-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #ff5e85;
+}
+
+/* Карточки продуктов (общая сетка) */
+.product-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 220px;
+    padding: 15px;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-image {
+    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+}
+
+.card-body {
+    margin-top: 10px;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin: 10px 0;
+    color: #333;
+}
+
+.card-price {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+/* Кнопки */
+.card-button {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-black {
+    background-color: #333;
+    color: #fff;
+}
+.btn-black:hover {
+    background-color: #555;
+}
+
+.btn-pink {
+    background-color: #ff5e85;
+    color: #fff;
+}
+.btn-pink:hover {
+    background-color: #e34a72;
+}
+
+/* Футер (прилипающий к нижнему краю) */
+.footer {
+    background-color: #ffdbe3;
+    text-align: center;
+    color: #666;
+    padding: 10px 0;
+    /* Не даём футеру растягиваться, чтобы он оставался внизу */
+    flex-shrink: 0;
+}

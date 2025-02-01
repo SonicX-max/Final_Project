@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Аналитика</h2>
+
+<!-- Форма выбора периода (дней) -->
+<form method="get" action="">
+  <label>Период (дней):</label>
+  <input type="number" name="days" value="{{ days|default_if_none:30 }}">
+  <button type="submit">Показать</button>
+</form>
+
+<hr>
+
+<!-- Общая сводка -->
+<p>Всего заказов за период: {{ total_orders }}</p>
+<p>Суммарная выручка: {{ total_revenue|floatformat:2 }} руб.</p>
+
+<!-- Если нужна популярность товаров (как у вас было) -->
+{% if product_popularity %}
+<h4>Топ популярных товаров:</h4>
+<ul>
+{% for item in product_popularity %}
+    <li>{{ item.product__name }}: {{ item.total_qty }} шт.</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+<hr>
+
+<!-- Детальный список заказов -->
+<h3>Список заказов за последние {{ days|default_if_none:30 }} дней</h3>
+{% if orders %}
+<ul>
+  {% for order in orders %}
+    <li style="margin-bottom: 10px;">
+      <strong>Заказ №{{ order.id }}</strong> ({{ order.created_at|date:"d.m.Y H:i" }})<br>
+      Статус: {{ order.get_status_display }}<br>
+      Адрес: {{ order.address }}<br>
+      Телефон: {{ order.phone }}<br>
+
+      <!-- Пример: вычисляем сумму заказа -->
+      {% with 0 as sum_price %}
+        {% for item in order.orderitem_set.all %}
+          {% with item_sum=item.product.price|floatformat:2 %}
+            <!-- Могли бы сложить, но в шаблоне это не очень удобно.
+                 Чаще считают в Python-коде.
+                 Показываем детальнее товары: -->
+          {% endwith %}
+        {% endfor %}
+      {% endwith %}
+
+      <strong>Товары:</strong>
+      <ul>
+      {% for item in order.orderitem_set.all %}
+        <li>
+          {{ item.product.name }}
+          ({{ item.product.price|floatformat:2 }} руб.) x {{ item.quantity }}
+        </li>
+      {% endfor %}
+      </ul>
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Заказов за этот период нет.</p>
+{% endif %}
+
+{% endblock %}

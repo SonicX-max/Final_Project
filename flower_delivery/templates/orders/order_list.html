@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Мои заказы</h2>
+
+{% if orders %}
+    <ul>
+        {% for order in orders %}
+            <li>
+                <strong>Заказ №{{ order.id }}</strong><br>
+                <strong>Статус:</strong> {{ order.get_status_display }}<br>
+                <strong>Общая сумма:</strong> {{ order.total_price }} руб.<br>
+                <strong>Дата создания:</strong> {{ order.created_at|date:"d.m.Y H:i" }}<br>
+                <a href="{% url 'repeat_order' order.id %}" class="btn btn-secondary">Повторить заказ</a>
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>У вас пока нет заказов.</p>
+{% endif %}
+{% endblock %}

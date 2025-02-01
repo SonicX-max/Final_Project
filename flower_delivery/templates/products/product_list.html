@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h2 class="page-title">Список товаров</h2>
+
+<div class="product-cards">
+    {% for p in products %}
+    <div class="card">
+        {% if p.image %}
+            <img src="{{ p.image.url }}" alt="{{ p.name }}" class="card-image">
+        {% endif %}
+        <div class="card-body">
+            <div class="card-title">{{ p.name }}</div>
+            <div class="card-price">{{ p.price }} руб.</div>
+            <div class="card-actions">
+                <a class="card-button btn-black" href="{% url 'add_to_cart' p.id %}">В корзину</a>
+                <a class="card-button btn-pink" href="{% url 'product_detail' p.id %}">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

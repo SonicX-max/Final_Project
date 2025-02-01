@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ product.name }}</h2>
+<p>Цена: {{ product.price }} руб.</p>
+
+{% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width:300px;">
+{% endif %}
+
+<!-- Отзывы -->
+<h3>Отзывы:</h3>
+{% if reviews %}
+    {% for rev in reviews %}
+        <div class="review">
+            <p><strong>{{ rev.user.username }}</strong> ({{ rev.rating }}/5) - <small>{{ rev.created_at|date:"d.m.Y H:i" }}</small></p>
+            <p>{{ rev.text }}</p>
+            <hr>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>Отзывов пока нет.</p>
+{% endif %}
+
+<!-- Форма для добавления отзыва -->
+{% if user.is_authenticated %}
+    <h3>Оставить отзыв:</h3>
+    <form method="post" action="{% url 'add_review' product.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="text">Отзыв:</label><br>
+            <textarea name="text" cols="40" rows="5" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="rating">Рейтинг (1-5):</label>
+            <select name="rating">
+                {% for r in "12345" %}
+                    <option value="{{ r }}">{{ r }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Оставить отзыв</button>
+    </form>
+{% else %}
+    <p><a href="{% url 'login' %}">Войдите</a>, чтобы оставить отзыв.</p>
+{% endif %}
+
+{% endblock %}
